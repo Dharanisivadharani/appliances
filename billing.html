@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Billing & Payment - ShopSmart</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f0f2f5; color:#333; }
+
+/* Navbar */
+header { display:flex; justify-content:space-between; align-items:center; padding:15px 50px; background:linear-gradient(90deg,#007BFF,#00C6FF); color:#fff; box-shadow:0 5px 15px rgba(0,0,0,0.2); border-bottom-left-radius:20px; border-bottom-right-radius:20px; }
+.logo { font-size:28px; font-weight:bold; color:#fff; cursor:pointer; transition:0.3s; }
+.logo:hover { color:#ffe600; }
+nav ul { list-style:none; display:flex; gap:25px; }
+nav ul li a { text-decoration:none; color:#fff; font-weight:600; transition:0.3s; }
+nav ul li a:hover { color:#ffe600; }
+.user-icon { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; margin-left:10px; cursor:pointer; transition:0.3s; }
+.user-icon.profile { background:linear-gradient(135deg,#ff6600,#ffcc00); color:#fff; }
+.user-icon.cart { background:linear-gradient(135deg,#00c6ff,#007BFF); color:#fff; }
+
+/* Billing Container */
+.billing-container { max-width:900px; margin:50px auto; background:#fff; padding:40px; border-radius:30px; box-shadow:0 10px 30px rgba(0,0,0,0.15); }
+.billing-container h2 { text-align:center; margin-bottom:30px; font-size:32px; background:linear-gradient(90deg,#007BFF,#00C6FF); -webkit-background-clip:text; color:transparent; }
+
+/* Form */
+.billing-container form { display:flex; flex-direction:column; gap:20px; }
+.billing-container input, .billing-container select, .billing-container textarea { padding:15px; border-radius:15px; border:1px solid #ddd; font-size:16px; width:100%; transition:0.3s; }
+.billing-container input:focus, .billing-container textarea:focus { border-color:#007BFF; box-shadow:0 0 10px rgba(0,123,255,0.3); outline:none; }
+.billing-container textarea { resize:none; }
+
+/* Payment Methods */
+.payment-methods { display:flex; flex-wrap:wrap; gap:20px; }
+.payment-methods label { flex:1 1 200px; padding:20px; border:2px solid #ddd; border-radius:20px; cursor:pointer; transition:0.3s; text-align:center; font-weight:bold; }
+.payment-methods input { display:none; }
+.payment-methods input:checked + span { background:linear-gradient(135deg,#007BFF,#00C6FF); color:#fff; border-radius:20px; display:block; transform:scale(1.05); box-shadow:0 5px 20px rgba(0,123,255,0.3); }
+
+/* Order Summary */
+.order-summary { margin-top:30px; background:linear-gradient(135deg,#e0f7ff,#ffffff); padding:20px; border-radius:20px; font-weight:bold; font-size:18px; box-shadow:0 5px 20px rgba(0,0,0,0.1); text-align:right; color:#007BFF; }
+
+/* Confirm Button */
+.confirm-btn { margin-top:30px; padding:18px; background:linear-gradient(135deg,#00c6ff,#007BFF); color:#fff; border:none; font-weight:bold; font-size:18px; border-radius:50px; cursor:pointer; transition:0.3s; width:220px; align-self:center; box-shadow:0 5px 20px rgba(0,0,0,0.2); }
+.confirm-btn:hover { background:linear-gradient(135deg,#007BFF,#00c6ff); transform:scale(1.05); }
+
+/* Footer */
+footer { background: linear-gradient(135deg,#007BFF,#00C6FF); color:#fff; text-align:center; padding:60px 20px 40px; border-top-left-radius:30px; border-top-right-radius:30px; margin-top:50px; }
+footer h4 { margin-bottom:20px; font-size:22px; }
+footer p, footer a { color:#fff; text-decoration:none; font-size:14px; }
+footer a:hover { text-decoration:underline; }
+footer .footer-grid { display:flex; flex-wrap:wrap; justify-content:space-around; margin-bottom:30px; }
+footer .footer-col { flex:1 1 200px; margin:15px; text-align:left; }
+footer .socials { margin-top:15px; }
+footer .socials a { margin-right:10px; display:inline-block; color:#fff; font-size:18px; transition:0.3s; }
+footer .socials a:hover { color:#ffe600; }
+footer p.copyright { margin-top:20px; font-size:13px; }
+
+/* Responsive */
+@media(max-width:768px){
+  header { flex-direction:column; gap:15px; }
+  nav ul { flex-wrap:wrap; justify-content:center; gap:15px; }
+  .payment-methods { flex-direction:column; }
+}
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<header>
+  <div class="logo" onclick="location.href='home.html'">ShopSmart</div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+  <div style="display:flex; align-items:center;">
+    <div class="user-icon profile" onclick="goProfile()">U</div>
+    <div class="user-icon cart" onclick="location.href='cart.html'">🛒 <span id="cartCount">0</span></div>
+  </div>
+</header>
+
+<!-- Billing Form -->
+<div class="billing-container">
+  <h2>Billing & Payment</h2>
+  <form id="billingForm">
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="tel" id="phone" placeholder="Phone Number" required>
+    <textarea id="address" placeholder="Shipping Address" rows="4" required></textarea>
+
+    <h3>Select Payment Method</h3>
+    <div class="payment-methods">
+      <label><input type="radio" name="payment" value="UPI" required><span>UPI</span></label>
+      <label><input type="radio" name="payment" value="Credit/Debit Card" required><span>Credit/Debit Card</span></label>
+      <label><input type="radio" name="payment" value="Cash on Delivery" required><span>Cash on Delivery</span></label>
+    </div>
+
+    <div class="order-summary" id="orderSummary">Total: ₹0</div>
+    <button type="submit" class="confirm-btn">Confirm & Pay</button>
+  </form>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>ShopSmart</h4>
+      <p>Your one-stop store for home appliances</p>
+      <div class="socials">
+        <a href="#">🌐</a>
+        <a href="#">🐦</a>
+        <a href="#">📘</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <p><a href="index.html">Home</a></p>
+      <p><a href="products.html">Products</a></p>
+      <p><a href="#">About Us</a></p>
+      <p><a href="#">Contact</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>123, Tech Street, Bangalore, India</p>
+      <p>Email: support@shopsmart.com</p>
+      <p>Phone: +91 98765 43210</p>
+    </div>
+  </div>
+  <p class="copyright">&copy; 2025 ShopSmart. All Rights Reserved.</p>
+</footer>
+
+<script>
+// Load cart & total
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
+const total = cart.reduce((sum,item)=>sum + item.price*item.quantity,0);
+document.getElementById("orderSummary").innerText = "Total: ₹" + total.toLocaleString();
+document.getElementById("cartCount").innerText = cart.reduce((sum,item)=>sum+item.quantity,0);
+
+// Form submit
+document.getElementById("billingForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const payment = document.querySelector('input[name="payment"]:checked')?.value;
+
+  if(!name || !email || !phone || !address || !payment){
+    alert("⚠️ Please fill all fields and select a payment method.");
+    return;
+  }
+
+  // Save order to localStorage
+  const orders = JSON.parse(localStorage.getItem("orders")) || [];
+  orders.push({name,email,phone,address,payment,cart,total,date:new Date().toLocaleString()});
+  localStorage.setItem("orders", JSON.stringify(orders));
+
+  // Clear cart
+  localStorage.removeItem("cart");
+
+  alert("✅ Order placed successfully!");
+  window.location.href="order-confirmation.html";
+});
+
+// Navbar profile
+function goProfile(){
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  if(user){ window.location.href="profile.html"; }
+  else{ window.location.href="login.html"; }
+}
+</script>
+</body>
+</html>

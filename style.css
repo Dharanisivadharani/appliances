@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: #fff;
+}
+
+/* Navbar styling */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  padding: 15px 60px;
+  border-bottom: 1px solid #e5e5e5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1b1f2a;
+}
+
+.logo .q {
+  color: #ff4d2d;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #1b1f2a;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ff4d2d;
+}
+
+.seller-btn {
+  background-color: transparent;
+  border: 1px solid #d1d1d1;
+  border-radius: 20px;
+  padding: 6px 18px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.seller-btn:hover {
+  background-color: #ff4d2d;
+  color: white;
+  border-color: #ff4d2d;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #1b1f2a;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.account-text {
+  font-size: 15px;
+}
